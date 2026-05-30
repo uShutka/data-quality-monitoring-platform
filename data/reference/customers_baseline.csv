@@ -1,0 +1,11 @@
+customer_id,name,email,phone,country,age,signup_date,lifetime_value
+B001,Mia,mia@example.com,+3725550201,EE,32,2024-10-03,390
+B002,Noah,noah@example.com,+3725550202,EE,39,2024-10-05,440
+B003,Olivia,olivia@example.com,+3725550203,EE,27,2024-10-11,360
+B004,Liam,liam@example.com,+3725550204,EE,42,2024-10-18,510
+B005,Emma,emma@example.com,+3715550205,LV,35,2024-11-02,470
+B006,Lucas,lucas@example.com,+3725550206,EE,30,2024-11-10,420
+B007,Sofia,sofia@example.com,+3705550207,LT,29,2024-11-20,330
+B008,Leo,leo@example.com,+3725550208,EE,34,2024-12-01,520
+B009,Amelia,amelia@example.com,+3725550209,EE,37,2024-12-12,490
+B010,Oscar,oscar@example.com,+3725550210,EE,40,2024-12-19,560

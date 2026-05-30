@@ -1,102 +1,170 @@
 # Data Quality Monitoring Platform
 
-    ![Dashboard screenshot](docs/screenshots/dashboard-overview.png)
+Production-style data quality platform for validating CSV/Excel/SQL-like datasets, detecting missing values, duplicates, invalid formats, outliers, data drift, and generating structured HTML/Excel reports with API and dashboard access.
 
-    ## Project Overview
+## Project Overview
 
-    Data quality platform for validating CSV/Excel/SQL-style datasets, detecting duplicates, nulls, invalid formats, outliers, schema issues, and generating structured reports.
+The project demonstrates data engineering maturity: it treats data quality as a first-class system, not an afterthought. It includes modular checks, a quality scoring model, report generation, alert previews, persistence schema, tests, Docker, and CI.
 
-    ## Business Problem
+## Business Problem
 
-    Many businesses rely on manual data collection, spreadsheets, and repeated browser actions. This creates slow workflows, human errors, outdated reports, and poor visibility into business metrics.
+Analytics teams often receive datasets with duplicated records, missing values, broken emails or phone numbers, impossible amounts, and silent distribution changes. Reports built on this data can become misleading even when the dashboard itself looks polished.
 
-    ## Solution
+## Solution
 
-    This project automates the workflow: data collection, cleaning, validation, structured storage, analytical metrics, dashboard/report output, and production-style tests/CI.
+The platform validates incoming data, calculates a quality score, compares the latest dataset with a historical baseline, stores report-ready results, and exposes summaries through FastAPI and Streamlit.
 
-    ## Architecture
+## Architecture
 
-    ![Architecture](docs/architecture.png)
+```text
+CSV / Excel / SQL Dataset
+-> Schema & Format Checks
+-> Completeness / Duplicates / Outliers
+-> Historical Drift Comparison
+-> Quality Score Engine
+-> PostgreSQL-ready Persistence
+-> HTML / Excel Reports + FastAPI + Dashboard + Telegram Alerts
+```
 
-    ```text
-    Data Sources -> Validation & Cleaning -> Analytical Models -> API / Dashboard / Reports
-    ```
+## Features
 
-    ## Features
+- Schema validation
+- Null and completeness checks
+- Duplicate detection
+- Email and phone format validation
+- IQR-based outlier detection
+- Historical baseline comparison and data drift detection
+- `quality_score` with business-friendly bands
+- HTML and Excel report generation
+- SQLite/PostgreSQL-style persistence schema
+- FastAPI endpoints
+- Streamlit dashboard
+- Telegram alert message builder
+- Docker Compose and GitHub Actions
 
-    - Clean project structure
-    - Sample data and reproducible analytics
-    - Validation and transformation logic
-    - Analytical metrics
-    - Dashboard/report-ready output
-    - Dockerized setup
-    - Automated tests
-    - GitHub Actions CI
+## Tech Stack
 
-    ## Tech Stack
+Python, pandas, pandera-ready validation style, FastAPI, Jinja2, OpenPyXL, PostgreSQL-ready schema, Docker, pytest, ruff, Streamlit.
 
-    Python, pandas, FastAPI, PostgreSQL, Docker, pytest
+## Database Schema
 
-    ## Database Schema
+`datasets`
 
-    Main entities:
+- `id`
+- `name`
+- `source_type`
+- `created_at`
 
-    - datasets
-- quality_checks
-- invalid_rows
-- quality_reports
+`quality_checks`
 
-    ## Data Pipeline
+- `id`
+- `dataset_id`
+- `check_name`
+- `status`
+- `failed_rows_count`
+- `created_at`
 
-    ```text
-    Raw data -> pandas transformations -> metrics -> business conclusions -> dashboard/report
-    ```
+`quality_reports`
 
-    ## API Endpoints
+- `id`
+- `dataset_id`
+- `total_rows`
+- `duplicates_count`
+- `nulls_count`
+- `invalid_emails_count`
+- `outliers_count`
+- `quality_score`
+- `created_at`
 
-    - GET /health
-- POST /quality/report
-- GET /quality/summary
+## Data Pipeline
 
-    ## Dashboard Screenshots
+1. Load the current dataset and historical baseline.
+2. Normalize dates and numeric columns.
+3. Run schema, completeness, duplicate, format, anomaly, and drift checks.
+4. Convert check results into a quality score.
+5. Generate reports and alert-ready messages.
+6. Serve results through API and dashboard.
 
-    ![Dashboard overview](docs/screenshots/dashboard-overview.png)
+## API Endpoints
 
-    ## Analytics Results
+- `GET /health`
+- `GET /quality/summary`
+- `GET /quality/checks`
+- `GET /quality/report/html`
+- `GET /quality/alert-preview`
+- `GET /quality/cleaned-summary`
 
-    - Quality score is calculated from nulls, duplicates, schema issues, and outliers.
-- Invalid rows are isolated for analyst review.
+## Dashboard Screenshots
 
-    ## How to Run
+Screenshots are stored in `docs/screenshots/`:
 
-    ```bash
-    python -m pip install -e .
-    pytest
-    docker compose up --build
-    ```
+- Data quality report
+- Before/after quality score
+- Invalid rows table
+- API validation endpoint
+- HTML report example
 
-    ## Tests
+## Analytics Results
 
-    ```bash
-    pytest
-    ```
+Demo quality summary:
 
-    The test suite covers transformation logic, metrics, validation/scoring rules, and output generation.
+- Initial data quality score: `64/100`
+- After cleaning: `93/100`
+- Duplicate records detected and removed
+- Invalid emails and phones detected
+- Outliers detected in customer lifetime value
+- Data drift detected against the baseline distribution
 
-    ## Engineering Notes
+Quality score interpretation:
 
-    This project is designed as a production-style portfolio system, not a one-file script. It includes modular architecture, configuration, Docker setup, automated tests, CI, sample data, docs, and business-facing conclusions.
+- `100`: excellent data
+- `80-99`: minor issues
+- `60-79`: needs cleaning
+- `<60`: dangerous for analytics
 
-    ## Known Limitations
+## How to Run
 
-    - Demo data is used for portfolio purposes.
-    - External integrations are represented with sample data or replaceable adapters.
-    - Historical analysis becomes stronger as more data is collected.
+```bash
+docker compose up --build
+```
 
-    ## Future Improvements
+Open:
 
-    - Add PostgreSQL persistence
-    - Add authentication
-    - Add background workers
-    - Add advanced anomaly detection
-    - Add export to PDF/Excel reports
+- API docs: `http://localhost:8002/docs`
+- Dashboard: `http://localhost:8503`
+
+Local development:
+
+```bash
+python -m pip install -e .
+uvicorn data_quality_monitoring_platform.api.main:app --reload
+streamlit run dashboard/streamlit_app.py
+```
+
+## Tests
+
+```bash
+pytest
+ruff check .
+```
+
+The suite covers schema checks, nulls, duplicates, format validation, outliers, drift, scoring, cleaning, report rendering, persistence, alerts, and API endpoints.
+
+## Engineering Notes
+
+The checks are split into small modules so each rule can be tested and extended independently. The same quality engine powers API responses, dashboard metrics, reports, and alert previews.
+
+## Known Limitations
+
+- Demo data is compact for portfolio review.
+- Outlier detection uses statistical thresholds, not ML.
+- Drift detection uses lightweight distribution checks.
+- Telegram sending is intentionally disabled unless credentials are provided through environment variables.
+
+## Future Improvements
+
+- Add scheduled checks with Prefect or APScheduler.
+- Add dataset-level SLAs and quality trend history.
+- Add Great Expectations or pandera schemas for stricter contracts.
+- Add Prometheus/Grafana monitoring.
+- Add PDF export and Slack alerts.

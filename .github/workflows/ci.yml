@@ -13,4 +13,6 @@ jobs:
           python-version: "3.10"
       - run: python -m pip install --upgrade pip
       - run: python -m pip install -e .
+      - run: ruff check .
+      - run: python -m compileall src tests
       - run: pytest --cov=data_quality_monitoring_platform --cov-report=term-missing

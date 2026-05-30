@@ -5,4 +5,4 @@ COPY src ./src
 COPY data ./data
 COPY dashboard ./dashboard
 RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir .
-CMD ["python", "-m", "data_quality_monitoring_platform.core"]
+CMD ["uvicorn", "data_quality_monitoring_platform.api.main:app", "--host", "0.0.0.0", "--port", "8000"]

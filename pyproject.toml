@@ -1,9 +1,21 @@
 [project]
 name = "data-quality-monitoring-platform"
 version = "0.1.0"
-description = "Data quality platform for validating datasets and generating quality reports."
+description = "Data quality platform for validating datasets, detecting anomalies and generating reports."
 requires-python = ">=3.10"
-dependencies = ["pandas>=2.2.0", "pytest>=8.3.0", "pytest-cov>=5.0.0", "fastapi>=0.115.0", "uvicorn>=0.30.0", "streamlit>=1.38.0", "openpyxl>=3.1.0"]
+dependencies = [
+    "pandas>=2.2.0",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.30.0",
+    "streamlit>=1.38.0",
+    "plotly>=5.24.0",
+    "jinja2>=3.1.0",
+    "openpyxl>=3.1.0",
+    "pandera>=0.20.0",
+    "pytest>=8.3.0",
+    "pytest-cov>=5.0.0",
+    "ruff>=0.6.0",
+]
 
 [build-system]
 requires = ["setuptools>=68"]
@@ -17,3 +29,11 @@ include = ["data_quality_monitoring_platform*"]
 testpaths = ["tests"]
 pythonpath = ["src"]
 addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]

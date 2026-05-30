@@ -1,0 +1,43 @@
+
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Data Quality Report</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #0d1117; color: #f0f6fc; padding: 32px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    .score { font-size: 44px; color: #58a6ff; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border-bottom: 1px solid #30363d; padding: 10px; text-align: left; }
+  </style>
+</head>
+<body>
+  <h1>Data Quality Monitoring Platform</h1>
+  <div class="card">
+    <div>Dataset: customers_dirty</div>
+    <div class="score">64/100</div>
+    <div>needs cleaning</div>
+  </div>
+  <div class="card">
+    <table>
+      <tr><th>Check</th><th>Status</th><th>Failed rows</th></tr>
+      
+      <tr><td>schema</td><td>passed</td><td>0</td></tr>
+      
+      <tr><td>nulls</td><td>failed</td><td>3</td></tr>
+      
+      <tr><td>duplicates</td><td>failed</td><td>2</td></tr>
+      
+      <tr><td>email_format</td><td>failed</td><td>3</td></tr>
+      
+      <tr><td>phone_format</td><td>failed</td><td>2</td></tr>
+      
+      <tr><td>outliers</td><td>failed</td><td>1</td></tr>
+      
+      <tr><td>data_drift</td><td>failed</td><td>1</td></tr>
+      
+    </table>
+  </div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+customer_id,name,email,phone,country,age,signup_date,lifetime_value
+C001,Alice,alice@example.com,+3725550101,EE,31,2025-01-03,420
+C002,Bob,bob.example.com,+3715550102,LV,44,2025-01-05,560
+C003,Carla,carla@example.com,,LT,28,2025-01-11,310
+C004,Dan,dan@example.com,+3725550104,EE,,2025-01-18,240
+C005,Eva,eva@example.com,+49305550105,DE,37,2025-02-02,720
+C006,Fred,fred@example,+372bad,EE,52,2025-02-10,880
+C007,Gina,gina@example.com,+3585550107,FI,24,2025-02-20,310
+C008,Hank,hank@example.com,+3725550108,EE,29,2025-03-01,15000
+C009,Ivy,,+485550109,PL,41,2025-03-12,450
+C010,John,john@example.com,+3725550110,EE,35,2025-03-19,610
+C010,John,john@example.com,+3725550110,EE,35,2025-03-19,610
+C011,Kate,kate@example.com,+3725550111,EE,33,2025-04-01,-20
