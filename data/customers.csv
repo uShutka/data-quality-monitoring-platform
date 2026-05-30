@@ -1,0 +1,5 @@
+customer_id,email,amount
+C001,alice@example.com,120
+C002,bob_at_example.com,80
+C002,bob_at_example.com,80
+C003,,15000
